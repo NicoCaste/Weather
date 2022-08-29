@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct Parameters: Codable {
     var appid: String?
     var q: String?

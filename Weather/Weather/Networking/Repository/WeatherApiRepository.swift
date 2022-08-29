@@ -20,6 +20,9 @@ final class WeatherApiRepository {
         webService.get(url, parameters: parameters, completion: { [weak self] result in
             switch result {
             case .success(let data):
+                if ApiCall.image == endpointType {
+                    completion(.success(data))
+                }
                 self?.handleSuccessBlock(endpointType: endpointType, data: data, completion: { response in
                         completion(response)
                 })
@@ -45,6 +48,8 @@ final class WeatherApiRepository {
             } else {
                 completion(.failure(WeatherApiError.unexpected(code: 2)))
             }
+        case .image:
+            break
         }
     }
     
@@ -64,6 +69,8 @@ final class WeatherApiRepository {
             } catch {
                 return Geocoding()
             }
+        case .image:
+            return Geocoding()
         }
     }
 }

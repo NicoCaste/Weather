@@ -13,8 +13,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .red
-
+        let weatherColor = getColorWeatherConditionFor(id: 501)
+        self.view.gradientBackground(topColor: weatherColor.topColor, bottomColor: weatherColor.bottomColor)
     }
 }
-
