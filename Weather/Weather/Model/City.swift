@@ -17,6 +17,6 @@ struct City: Codable {
 }
 
 struct Coord: Codable {
-    var lat: Int?
-    var lon: Int?
+    var lat: Float?
+    var lon: Float?
 }

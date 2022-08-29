@@ -10,6 +10,9 @@ import Foundation
 
 struct Parameters: Codable {
     var appid: String?
-    var lat: Int?
-    var lon: Int
+    var q: String?
+    var limit: Int?
+    var lat: Float?
+    var lon: Float?
+    var id: Int?
 }
