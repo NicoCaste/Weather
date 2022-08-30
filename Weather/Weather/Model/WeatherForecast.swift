@@ -14,7 +14,8 @@ struct WeatherForecast: Codable {
 }
 
 struct WeatherForecastCard {
-    var weather: WeatherForecast?
+    var weather: WeatherAttributes?
     var weatherImage: UIImage?
+    var dayName: String?
 }
 

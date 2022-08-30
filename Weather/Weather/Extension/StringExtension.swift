@@ -18,11 +18,12 @@ extension String {
         case hour = "HH"
         case yearMonth = "yyyy-MM"
         case yearMothDay = "yyyy-MM-dd"
+        case dayName = "cccc"
     }
     
     func getDateFormatString(format: FormatDateType ) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         guard let date = dateFormatter.date(from: self) else { return self }
         dateFormatter.dateFormat = format.rawValue
         let stringDateFormat = dateFormatter.string(from: date)

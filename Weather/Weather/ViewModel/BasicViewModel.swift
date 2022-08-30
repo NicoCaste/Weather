@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class BaseViewModel {
     let service: AlamofireWebService
@@ -18,17 +19,27 @@ class BaseViewModel {
     
     func getImageBy(id: String, completion:@escaping(Data) -> Void) {
         let url = ApiUrlHelper.getApiUrl(call: .image, imageId: id)
-        callApi.getWeatherForecast(url: url, endpointType: .image, parameters: Parameters(), completion: { result in
+        callApi.getWeatherForecast(url: url, endpointType: .image, parameters: Parameters(), completion: {[weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let imageData):
                 if let imageData = imageData as? Data {
                     completion(imageData)
                 } else {
-                    print("error de formato")
+                    let genericImage = self.genericImageData()
+                    completion(genericImage)
                 }
             case .failure(let error):
-                print(error)
+                let genericImage = self.genericImageData()
+                completion(genericImage)
             }
         })
+    }
+    
+    private func genericImageData() -> Data {
+        guard let imageCamera = UIImage(systemName: "camera"),
+              let imageData = imageCamera.pngData()
+        else { return Data()}
+        return imageData
     }
 }
