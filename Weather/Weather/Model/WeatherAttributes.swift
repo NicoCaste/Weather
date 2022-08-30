@@ -27,12 +27,14 @@ struct TempDetail: Codable {
     var temp: Float?
     var feelsLike: Float?
     var tempMin: Float?
+    var tempMax: Float?
     var humidity: Int?
     
     enum CodingKeys: String, CodingKey {
         case temp
         case feelsLike = "feels_like"
         case tempMin =  "temp_min"
+        case tempMax = "temp_max"
         case humidity
     }
 }

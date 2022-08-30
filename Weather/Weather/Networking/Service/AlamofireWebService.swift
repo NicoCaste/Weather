@@ -17,7 +17,8 @@ final class AlamofireWebService: WebService {
         AF.request(urlString, parameters: params).responseData { response in
            
             if let data = response.value {
-                if response.response?.statusCode == 200 {                    completion(.success(data))
+                if response.response?.statusCode == 200 {
+                    completion(.success(data))
                 } else {
                     completion(.failure(WeatherApiError.notFound))
                 }

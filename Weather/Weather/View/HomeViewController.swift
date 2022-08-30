@@ -17,7 +17,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = HomeViewModel()
-        weatherColor = getColorWeatherConditionFor(id: 800)
+        weatherColor = self.view.getColorWeatherConditionFor(id: 800)
         self.view.gradientBackground(topColor: weatherColor!.topColor, bottomColor: weatherColor!.bottomColor)
         self.configDismissBoard()
         setHeaderView()
@@ -55,7 +55,6 @@ class HomeViewController: UIViewController {
     }
     
     func setCitiesListView() {
-       // citiesListView.delegate = self
         citiesListView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(citiesListView)
         citiesListView.delegate = self
@@ -106,7 +105,5 @@ extension HomeViewController: CitiesListViewProtocol {
         guard let navigation = self.navigationController else { return }
         Router.goToWeatherDetail(navigation: navigation, city: city)
     }
-    
-    
 }
 

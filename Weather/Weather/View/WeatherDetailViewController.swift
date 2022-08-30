@@ -65,8 +65,9 @@ class WeatherDetailViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
-       // tableView.separatorStyle = .none
-        tableView.register(CityTableViewCell.self, forCellReuseIdentifier: "CityTableViewCell")
+        tableView.separatorStyle = .none
+        tableView.register(WeatherMainDetailTableViewCell.self, forCellReuseIdentifier: "WeatherMainDetailTableViewCell")
+        tableView.register(ExtendedForecastTableViewCell.self, forCellReuseIdentifier: "ExtendedForecastTableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(tableView)
         layoutTableView()
@@ -91,6 +92,14 @@ class WeatherDetailViewController: UIViewController {
             })
         }
     }
+    
+    func setBackgroundColor(id: Int) {
+        DispatchQueue.main.async { [weak self] in
+            guard let weatherColor = self?.view.getColorWeatherConditionFor(id: id) else { return }
+            self?.view.gradientBackground(topColor: weatherColor.topColor, bottomColor: weatherColor.bottomColor)
+            self?.cityNameLabel.textColor = weatherColor.headerColor
+        }
+    }    
 }
 
 extension WeatherDetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -100,11 +109,40 @@ extension WeatherDetailViewController: UITableViewDataSource, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.weatherForecastCardList.count
+        if WeatherDetailSections.weatherToday.rawValue == section {
+            return 1
+        } else {
+            return viewModel.weatherForecastCardList.count - 1
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let emptyCell = UITableViewCell()
+        emptyCell.widthAnchor.constraint(equalToConstant: 0)
+        
+        if WeatherDetailSections.weatherToday.rawValue == indexPath.section {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherMainDetailTableViewCell") as? WeatherMainDetailTableViewCell
+            
+            guard let weather =  viewModel?.weatherForecastCardList.first else { return UITableViewCell() }
+            
+            cell?.populate(weatherCard: weather)
+            
+            if let id = weather.weather?.weather?.first?.id {
+                setBackgroundColor(id: id)
+            }
+            
+            return cell ?? emptyCell
+        } else if WeatherDetailSections.extendedForecast.rawValue == indexPath.section {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ExtendedForecastTableViewCell") as? ExtendedForecastTableViewCell
+            
+            guard let weather = viewModel?.weatherForecastCardList[indexPath.row + 1] else { return emptyCell }
+            
+            cell?.populate(weatherCard: weather)
+            
+            return cell ?? emptyCell
+        }
+        
+        return emptyCell
     }
 }

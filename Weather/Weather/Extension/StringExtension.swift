@@ -6,8 +6,7 @@
 //
 
 import Foundation
-
-import Foundation
+import UIKit
 
 extension String {
     enum FormatDateType: String {
@@ -32,6 +31,19 @@ extension String {
     
     func localized () -> String {
         return NSLocalizedString(self, comment: "")
+    }
+    
+    func setStringWithImageAttachment(imageName: String, imageSize: Int) -> NSMutableAttributedString {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image  = UIImage(systemName: imageName)
+        imageAttachment.image?.withTintColor(.black)
+        imageAttachment.bounds.size = CGSize(width: imageSize, height: imageSize)
+        let attachmentString = NSAttributedString(attachment: imageAttachment)
+        let completeText = NSMutableAttributedString(string: "")
+        completeText.append(attachmentString)
+        let textAfterIcon = NSAttributedString(string: self)
+        completeText.append(textAfterIcon)
+        return completeText
     }
     
 }
