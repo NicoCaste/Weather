@@ -103,7 +103,8 @@ extension HomeViewController: CitiesListViewProtocol {
     }
     
     func goToWeatherDetail(city: Geocoding) {
-        print(city.name)
+        guard let navigation = self.navigationController else { return }
+        Router.goToWeatherDetail(navigation: navigation, city: city)
     }
     
     
