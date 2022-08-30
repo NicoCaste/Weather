@@ -11,4 +11,5 @@ import UIKit
 struct WeatherColor {
     let topColor: CGColor
     let bottomColor: CGColor
+    let headerColor: UIColor?
 }

@@ -14,10 +14,14 @@ final class WeatherApiRepository {
         self.webService = webService
     }
     
-    func getWeatherForecast(endpointType: ApiCall, parameters: Parameters, completion: @escaping (Result<Decodable, Error>) -> Void) {
-        let url = ApiUrlHelper.getApiUrl(call: endpointType)
+    func getWeatherForecast(url: String? = nil, endpointType: ApiCall, parameters: Parameters, completion: @escaping (Result<Decodable, Error>) -> Void) {
+        var urlString = ApiUrlHelper.getApiUrl(call: endpointType)
+        
+        if let url = url {
+            urlString = url
+        }
 
-        webService.get(url, parameters: parameters, completion: { [weak self] result in
+        webService.get(urlString, parameters: parameters, completion: { [weak self] result in
             switch result {
             case .success(let data):
                 if ApiCall.image == endpointType {

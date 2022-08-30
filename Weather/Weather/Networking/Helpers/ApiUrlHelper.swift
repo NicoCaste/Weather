@@ -30,6 +30,6 @@ class ApiUrlHelper {
     
     static func setImageName(id: String?) -> String {
         guard let id = id else { return ""}
-        return "\(id)@2x.png"
+        return "img/wn/\(id)@2x.png"
     }
 }

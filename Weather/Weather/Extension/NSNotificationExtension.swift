@@ -11,4 +11,8 @@ extension NSNotification.Name {
     static var newCity: NSNotification.Name {
         return .init(rawValue: "newCity")
     }
+    
+    static var clearPrediction: NSNotification.Name {
+        return .init(rawValue: "clearPrediction")
+    }
 }

@@ -12,3 +12,9 @@ struct WeatherForecast: Codable {
     var list: [WeatherAttributes]?
     var city: City?
 }
+
+struct WeatherForecastCard {
+    var weather: WeatherForecast?
+    var weatherImage: UIImage?
+}
+
