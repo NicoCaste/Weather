@@ -10,6 +10,7 @@ import Foundation
 class HomeViewModel: BaseViewModel {
     let notificationCenter = NotificationCenter.default
     private let key = "savedCity"
+    
     override init() {
         super.init()
     }
@@ -20,9 +21,7 @@ class HomeViewModel: BaseViewModel {
         if let data = UserDefaults.standard.value(forKey: key) as? Data {
             selectedCities = try? PropertyListDecoder().decode(Set<Geocoding>.self, from: data)
         }
-        
         return selectedCities
-        
     }
     
     func saveNewCity(city: Geocoding) {

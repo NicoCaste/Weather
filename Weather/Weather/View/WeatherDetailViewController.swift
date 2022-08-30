@@ -10,14 +10,16 @@ import UIKit
 class WeatherDetailViewController: UIViewController {
     let city: Geocoding
     var viewModel: WeatherViewModel?
+    lazy var activityIndicator: UIActivityIndicatorView? = UIActivityIndicatorView(style: .large)
     lazy var cityNameLabel: UILabel = UILabel() 
     lazy var tableView: UITableView = UITableView()
+    var notificationCenter: NotificationCenter = NotificationCenter.default
     
     init(city: Geocoding) {
         self.city = city
         super.init(nibName: nil, bundle: nil)
         self.view.backgroundColor = .white
-        self.title =  "Weather Forecast"
+        self.title =  "wForecast".localized()
         configViewModel()
         getWeatherDetailForCity()
     }
@@ -35,6 +37,8 @@ class WeatherDetailViewController: UIViewController {
         super.viewDidLoad()
         setCityNameLabel()
         setTableView()
+        setActivityIndicator()
+        notificationCenter.addObserver(self, selector: #selector(showErrorView(_:)), name: NSNotification.Name.showErrorView, object: nil)
     }
     
     func configViewModel() {
@@ -62,10 +66,12 @@ class WeatherDetailViewController: UIViewController {
     
     // MARK: - TableView
     private func setTableView() {
+        tableView.isHidden = true
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.userActivity = .none
         tableView.register(WeatherMainDetailTableViewCell.self, forCellReuseIdentifier: "WeatherMainDetailTableViewCell")
         tableView.register(ExtendedForecastTableViewCell.self, forCellReuseIdentifier: "ExtendedForecastTableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +93,7 @@ class WeatherDetailViewController: UIViewController {
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             self?.viewModel?.getWeatherDetailForCity(completion: {
                 DispatchQueue.main.async {
+                    self?.stopActivityIndicator()
                     self?.tableView.reloadData()
                 }
             })
@@ -99,7 +106,35 @@ class WeatherDetailViewController: UIViewController {
             self?.view.gradientBackground(topColor: weatherColor.topColor, bottomColor: weatherColor.bottomColor)
             self?.cityNameLabel.textColor = weatherColor.headerColor
         }
-    }    
+    }
+    
+    // MARK: - SetActivityIndicator
+    func setActivityIndicator() {
+        activityIndicator?.color = .systemGray
+        guard let activityIndicator = activityIndicator else { return }
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+    }
+    
+    // MARK: - StopActivity
+    func stopActivityIndicator() {
+        DispatchQueue.main.async {
+            self.tableView.isHidden = false
+            self.tableView.reloadData()
+            self.activityIndicator?.stopAnimating()
+            self.activityIndicator?.removeFromSuperview()
+        }
+    }
+    
+    @objc func showErrorView(_ error: Notification) {
+        guard let errorMessage = error.userInfo?["errorMessage"] as? ErrorMessage,
+              let navigation = self.navigationController else { return }
+        Router.showErrorView(navigation: navigation, message: errorMessage )
+
+    }
 }
 
 extension WeatherDetailViewController: UITableViewDataSource, UITableViewDelegate {

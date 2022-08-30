@@ -29,7 +29,7 @@ class BaseViewModel {
                     let genericImage = self.genericImageData()
                     completion(genericImage)
                 }
-            case .failure(let error):
+            case .failure(_):
                 let genericImage = self.genericImageData()
                 completion(genericImage)
             }

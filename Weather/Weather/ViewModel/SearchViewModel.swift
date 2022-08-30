@@ -35,10 +35,10 @@ class SearchViewModel: BaseViewModel {
                     let userInfo: [String : Any] = [ApiCall.geocoding.rawValue : cities]
                     NotificationCenter.default.post(name: NSNotification.Name.newCity, object: nil, userInfo: userInfo)
                 } else {
-                    print("error")
+                    ShowErrorManager.showErrorView(title: "Ups".localized(), description: "genericError".localized())
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                ShowErrorManager.showErrorView(title: "Ups".localized(), description: "genericError".localized())
             }
         })
     }

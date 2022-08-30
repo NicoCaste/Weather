@@ -23,10 +23,10 @@ class WeatherViewModel: BaseViewModel {
                         completion()
                     })
                 } else {
-                    print("error")
+                    ShowErrorManager.showErrorView(title: "Ups".localized(), description: "genericError".localized())
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                ShowErrorManager.showErrorView(title: "Ups".localized(), description: "genericError".localized())
             }
         })
     }

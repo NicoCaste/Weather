@@ -13,7 +13,7 @@ final class AlamofireWebService: WebService {
     
     func get(_ urlString: String, parameters: Parameters, completion: @escaping (Result<Data, Error>) -> Void) {
         var params = parameters
-        params.appid = apiKey
+        params.appid = ""
         AF.request(urlString, parameters: params).responseData { response in
            
             if let data = response.value {

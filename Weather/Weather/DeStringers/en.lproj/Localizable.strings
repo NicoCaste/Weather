@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Weather
+
+  Created by nicolas castello on 30/08/2022.
+  
+*/
+
+//MARK: Titles
+"Ups" = "Ups!";
+"wForecast" = "Weather Forecast";
+"myCities" = "My Cities";
+"predictionList" = "Prediction List";
+
+//MARK: Error Texts
+"genericError" = "We had a problem. \nPlease try later!";
+"delete" = "delete";
+
+

@@ -120,6 +120,7 @@ class SearchMovieView: UIView {
     
     @objc private func closeSearchView() {
         NotificationCenter.default.post(name: NSNotification.Name.clearPrediction, object: nil, userInfo: nil)
+        textField.attributedText = nil
         delegate?.closeSearchView()
     }
 }

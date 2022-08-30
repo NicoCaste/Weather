@@ -43,8 +43,8 @@ class CitiesListView: UIView {
     }
     
     enum CitiesSections: String {
-        case prediction = "prediction list"
-        case saved = "My Cities"
+        case prediction = "predictionList"
+        case saved = "myCities"
     }
     
     @objc func citiesPrediction(notification: Notification) {
@@ -60,11 +60,10 @@ class CitiesListView: UIView {
     @objc func clearPrediciton() {
         if !savedCities.isEmpty {
             tableContent = Array(savedCities)
-            setSection(section: .saved)
         } else {
             tableContent = []
         }
-        
+        setSection(section: .saved)
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
@@ -110,7 +109,7 @@ class CitiesListView: UIView {
     
     // MARK: - Add Subs Section
     func setSection(section: CitiesSections) {
-        citySections = section.rawValue
+        citySections = section.rawValue.localized()
     }
 
 }

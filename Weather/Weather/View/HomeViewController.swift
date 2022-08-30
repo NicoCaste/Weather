@@ -16,13 +16,20 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.setHidesBackButton(true, animated: true)
         viewModel = HomeViewModel()
         weatherColor = self.view.getColorWeatherConditionFor(id: 800)
-        self.view.gradientBackground(topColor: weatherColor!.topColor, bottomColor: weatherColor!.bottomColor)
+        if let weatherColor = weatherColor {
+            self.view.gradientBackground(topColor: weatherColor.topColor, bottomColor: weatherColor.bottomColor)
+        }
         self.configDismissBoard()
         setHeaderView()
-        setSearchView()
         setCitiesListView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        closeSearchView()
     }
     
     func setSearchView() {

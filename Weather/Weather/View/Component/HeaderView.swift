@@ -52,7 +52,7 @@ class HeaderView: UIView {
     
     private func setHeaderTitleLabel() {
         headerTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerTitleLabel.text = "Weather Forecast"
+        headerTitleLabel.text = "wForecast".localized()
         self.addSubview(headerTitleLabel)
         
         headerTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline).withSize(20)

@@ -15,4 +15,8 @@ extension NSNotification.Name {
     static var clearPrediction: NSNotification.Name {
         return .init(rawValue: "clearPrediction")
     }
+    
+    static var showErrorView: NSNotification.Name {
+        return .init(rawValue: "showErrorView")
+    }
 }
